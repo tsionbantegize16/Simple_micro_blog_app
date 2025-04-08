@@ -15,6 +15,16 @@ const Home = () => {
     setBlogs(newBlogs); // Update the state with the new array
   };
 
+  // Using useEffect to fetch blogs data when component mounts
+  useEffect(() => {
+    console.log('useEffect ran'); // This will run once when the component mounts
+    fetch('http://localhost:8000/blogs') // Fetching blogs data from API
+      .then(res => res.json()) // Converting response to JSON
+      .then(data => {
+        setBlogs(data); // Updating blogs state with fetched data
+      });
+  }, []); // The effect will run only once when the component mounts
+
   // Using useEffect to log when 'name' changes
   useEffect(() => {
     console.log('useEffect ran because name changed'); // This will run when 'name' changes
