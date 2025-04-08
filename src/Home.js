@@ -2,42 +2,27 @@ import { useState, useEffect } from "react"; // Ensure useState and useEffect ar
 import BlogList from "./BlogList"; // Import BlogList component
 
 const Home = () => {
-  const [blogs, setBlogs] = useState([ // Initializing state with an array of blogs
-    { title: 'My new website', body: 'lorem ipsum...', author: 'mario', id: 1 },
-    { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
-    { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
-  ]);
-  const [name, setName] = useState('mario'); // State for the name
+  const [blogs, setBlogs] = useState(null); // State to store the blogs data
+  const [isPending, setIsPending] = useState(true); // State to handle loading status
 
-  // Function to handle blog deletion
-  const handleDelete = (id) => {
-    const newBlogs = blogs.filter(blog => blog.id !== id); // Filter out the blog with the specified id
-    setBlogs(newBlogs); // Update the state with the new array
-  };
-
-  // Using useEffect to fetch blogs data when component mounts
+  // Fetching data when component mounts
   useEffect(() => {
-    console.log('useEffect ran'); // This will run once when the component mounts
-    fetch('http://localhost:8000/blogs') // Fetching blogs data from API
-      .then(res => res.json()) // Converting response to JSON
+    fetch('http://localhost:8000/blogs')
+      .then(res => res.json()) // Convert response to JSON
       .then(data => {
-        setBlogs(data); // Updating blogs state with fetched data
+        setIsPending(false); // Set isPending to false after data is fetched
+        setBlogs(data); // Set the blogs state with fetched data
+      })
+      .catch(err => {
+        console.error('Error fetching blogs:', err); // Handle any errors
+        setIsPending(false); // Stop loading if there's an error
       });
-  }, []); // The effect will run only once when the component mounts
-
-  // Using useEffect to log when 'name' changes
-  useEffect(() => {
-    console.log('useEffect ran because name changed'); // This will run when 'name' changes
-    console.log('Current name:', name); // Logs the current name state
-  }, [name]); // The effect will only run when 'name' changes
+  }, []); // The effect runs only once when the component mounts
 
   return (
     <div className="home">
-      {/* Displaying all blogs with BlogList component */}
-      <BlogList blogs={blogs} title="All Blogs" handleDelete={handleDelete} />
-      
-      {/* Button to change the name */}
-      <button onClick={() => setName('luigi')}>Change Name</button>
+      { isPending && <div>Loading...</div> } {/* Display loading message while fetching */}
+      {blogs && <BlogList blogs={blogs} title="All Blogs" />} {/* Display blogs once data is fetched */}
     </div>
   );
 };
