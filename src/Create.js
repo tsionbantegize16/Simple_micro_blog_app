@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Create = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [author, setAuthor] = useState('mario');
-  const history = useHistory();
+  const navigate = useNavigate();  // Replace useHistory with useNavigate
 
   const handleSubmit = (e) => {
     e.preventDefault(); // prevents page reload
@@ -20,7 +20,7 @@ const Create = () => {
     })
     .then(() => {
       console.log('New blog added');
-      history.push('/'); // Redirect to home page after successful submission
+      navigate('/'); // Redirect to home page after successful submission
     })
     .catch((err) => {
       console.error('Error adding blog:', err);
