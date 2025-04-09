@@ -13,4 +13,26 @@
         "id": 2
       }
     ]
+  }{
+    "blogs": [
+      {
+        "id": 1,
+        "title": "My First Blog",
+        "body": "Why do we use it?\nIt is a long established fact...",
+        "author": "mario"
+      },
+      {
+        "id": 2,
+        "title": "Opening Party!",
+        "body": "Why do we use it?\nIt is a long established fact...",
+        "author": "yoshi"
+      },
+      {
+        "id": 3,
+        "title": "testing",
+        "body": "cds,fknsdf  dgfsdflsd",
+        "author": "yoshi"
+      }
+    ]
   }
+  

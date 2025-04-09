@@ -9,8 +9,20 @@ const Create = () => {
     e.preventDefault(); // prevents page reload
     const blog = { title, body, author };
     console.log(blog); // test output
-    // You can send blog data to a server here using fetch/axios
-  }
+
+    // Make POST request to the server to save the blog data
+    fetch('http://localhost:8000/blogs', {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(blog)
+    })
+    .then(() => {
+      console.log('New blog added');
+    })
+    .catch((err) => {
+      console.error('Error adding blog:', err);
+    });
+  };
 
   return (
     <div className="create">
@@ -40,10 +52,10 @@ const Create = () => {
           <option value="yoshi">yoshi</option>
         </select>
         
-        <button>Add Blog</button>
+        <button type="submit">Add Blog</button>
       </form>
     </div>
   );
-}
+};
 
 export default Create;
